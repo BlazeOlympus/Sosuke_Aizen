@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+    <title>NetSentinel</title>
+
+    
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>NetSentinel</h2>
+                <p>Network Intelligence</p>
+            </div>
+
+            <nav class="navigation">
+
+                <button class="nav-item active">
+                    Dashboard
+                </button>
+
+                <button class="nav-item">
+                    Diagnostics
+                </button>
+
+                <button class="nav-item">
+                    Incidents
+                </button>
+
+                <button class="nav-item">
+                    Tickets
+                </button>
+
+                <button class="nav-item">
+                    ISP Dashboard
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Top Bar -->
+            <header class="topbar">
+
+                <div>
+                    <h1>Network Overview</h1>
+                    <p>Real-time connection monitoring</p>
+                </div>
+
+                <div class="connection-status">
+                    <span class="status-dot"></span>
+                    Connected
+                </div>
+
+            </header>
+
+
+            <!-- Dashboard -->
+            <section class="dashboard">
+
+                <!-- Health Card -->
+                <div class="card health-card">
+
+                    <p class="card-title">Network Health</p>
+
+                    <div class="health-score">
+                        <span id="health-score">87</span>
+                        <span>/100</span>
+                    </div>
+
+                    <p class="health-status" id="health-status">
+    Good Connection
+</p>
+
+                </div>
+
+
+                <!-- Latency -->
+                <div class="card">
+
+                    <p class="card-title">Latency</p>
+
+                    <div class="metric-value">
+                        <span id="latency-value">24</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Current response time
+                    </p>
+
+                </div>
+
+
+                <!-- Packet Loss -->
+                <div class="card">
+
+                    <p class="card-title">Packet Loss</p>
+
+                    <div class="metric-value">
+                        <span id="packet-loss-value">0.2</span>
+                        <span>%</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Current packet loss
+                    </p>
+
+                </div>
+
+                <!-- Download -->
+                <div class="card">
+
+                    <p class="card-title">Download</p>
+
+                    <div class="metric-value">
+                        <span id="download-value">92</span>
+                        <span>Mbps</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Current download speed
+                    </p>
+
+                </div>
+
+
+                <!-- Upload -->
+                <div class="card">
+
+                    <p class="card-title">Upload</p>
+
+                    <div class="metric-value">
+                        <span id="upload-value">21</span>
+                        <span>Mbps</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Current upload speed
+                    </p>
+
+                </div>
+
+
+                <!-- DNS -->
+                <div class="card">
+
+                    <p class="card-title">DNS Response</p>
+
+                    <div class="metric-value">
+                        <span id="dns-value">18</span>
+                        <span>ms</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Current DNS response
+                    </p>
+
+                </div>
+
+
+                <!-- RSSI -->
+                <div class="card">
+
+                    <p class="card-title">Wi-Fi Signal</p>
+
+                    <div class="metric-value">
+                        <span id="rssi-value">-48</span>
+                        <span>dBm</span>
+                    </div>
+
+                    <p class="metric-description">
+                        Signal strength
+                    </p>
+
+                </div>
+
+            </section>
+            <section class="chart-section">
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+            <h2>Latency History</h2>
+            <span>Last 10 measurements</span>
+        </div>
+
+        <canvas id="latency-chart"></canvas>
+
+    </div>
+
+</section>  
+<div id="anomaly-alert" class="anomaly-alert hidden">
+
+    <div>
+        <strong>⚠ Network Performance Degradation</strong>
+
+        <p>
+            Elevated latency detected. Diagnostic tests may be triggered automatically.
+        </p>
+    </div>
+
+    <span id="anomaly-latency">
+        0 ms
+    </span>
+
+</div>
+<section class="monitoring-panel">
+
+    <div class="monitoring-info">
+
+        <div class="monitoring-indicator">
+            <span class="monitoring-dot"></span>
+
+            <div>
+                <h3>Network Monitoring Active</h3>
+                <p>NetSentinel is continuously checking your connection.</p>
+            </div>
+
+        </div>
+
+        <div class="last-check">
+            <span>Last check</span>
+            <strong id="last-check-time">Just now</strong>
+        </div>
+
+    </div>
+
+
+    <div class="monitoring-actions">
+
+        <button id="diagnostic-button" class="diagnostic-button">
+            Run Diagnostic
+        </button>
+
+    </div>
+
+</section>                   
+<!-- Live Network Monitor -->
+<section class="live-monitor">
+
+    <div class="live-header">
+        <div>
+            <p class="section-label">LIVE NETWORK MONITOR</p>
+            <h2>Connection Activity</h2>
+        </div>
+
+        <div class="live-indicator">
+            <span></span>
+            LIVE
+        </div>
+    </div>
+
+    <div class="live-content">
+
+        <div class="connection-info">
+
+            <div class="status-row">
+                <span>Connection</span>
+                <strong>Connected</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Latency</span>
+                <strong>28 ms</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Packet Loss</span>
+                <strong>0.2%</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Last Checked</span>
+                <strong>Just now</strong>
+            </div>
+
+        </div>
+
+        <div class="activity-placeholder">
+            <canvas id="network-chart"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Incident Timeline -->
+<section class="incident-section">
+
+    <div class="section-heading">
+        <div>
+            <p class="section-label">NETWORK EVENTS</p>
+            <h2>Incident Timeline</h2>
+        </div>
+
+        <span class="incident-status">
+            LIVE
+        </span>
+    </div>
+
+    <div id="incident-timeline" class="incident-timeline">
+
+        <div class="timeline-empty">
+            No incidents detected
+        </div>
+
+    </div>
+
+</section>
+<!-- Speed Test -->
+<section class="speed-test">
+
+    <div class="speed-header">
+        <div>
+            <p class="section-label">NETWORK DIAGNOSTICS</p>
+            <h2>Speed Test</h2>
+        </div>
+
+        <div class="test-status" id="test-status">
+            READY
+        </div>
+    </div>
+
+    <div class="speed-test-content">
+
+        <div class="speedometer">
+
+            <svg viewBox="0 0 300 180">
+
+                <!-- Gauge background -->
+                <path
+                    class="gauge-background"
+                    d="M 40 150 A 110 110 0 0 1 260 150"
+                />
+
+                <!-- Gauge progress -->
+                <path
+                    id="gauge-progress"
+                    class="gauge-progress"
+                    d="M 40 150 A 110 110 0 0 1 260 150"
+                />
+                <!-- Gauge labels -->
+<text x="30" y="165" class="gauge-label">0</text>
+<text x="92" y="82" class="gauge-label">250</text>
+<text x="145" y="48" class="gauge-label">500</text>
+<text x="198" y="82" class="gauge-label">750</text>
+<text x="250" y="165" class="gauge-label">1000</text>
+
+                <!-- Needle -->
+                <line
+                    id="speed-needle"
+                    class="speed-needle"
+                    x1="150"
+                    y1="150"
+                    x2="150"
+                    y2="65"
+                />
+
+                <circle
+                    class="needle-center"
+                    cx="150"
+                    cy="150"
+                    r="7"
+                />
+
+            </svg>
+
+            <div class="speed-value">
+                <span id="speed-value">0</span>
+                <small>Mbps</small>
+            </div>
+
+            <p class="speed-label">
+                Download Speed
+            </p>
+
+        </div>
+
+        <div class="test-controls">
+
+            <p>
+                Measure your current connection performance.
+            </p>
+
+            <button
+                id="start-speed-test"
+                class="speed-button"
+            >
+                Start Speed Test
+            </button>
+
+            <div class="test-progress">
+
+                <div
+                    id="test-progress-bar"
+                    class="test-progress-bar"
+                ></div>
+
+            </div>
+
+            <span id="test-message">
+                Ready to test your connection
+            </span>
+
+        </div>
+
+    </div>
+    <!-- Test Statistics -->
+<div class="test-stats">
+
+    <div class="stat">
+        <span>DOWNLOAD SPEED</span>
+        <strong id="result-speed">-- Mbps</strong>
+    </div>
+
+    <div class="stat">
+        <span>TEST DURATION</span>
+        <strong id="result-duration">-- sec</strong>
+    </div>
+
+    <div class="stat">
+        <span>DATA TRANSFERRED</span>
+        <strong id="result-data">-- MB</strong>
+    </div>
+
+</div>
+
+</section>
+</main>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
+<!-- Before vs During Comparison -->
+<section class="comparison-section">
+
+    <div class="section-heading">
+        <div>
+            <p class="section-label">INCIDENT ANALYSIS</p>
+            <h2>Before vs During</h2>
+        </div>
+
+        <span class="comparison-badge">
+            LIVE ANALYSIS
+        </span>
+    </div>
+
+    <div class="comparison-card">
+
+        <div class="comparison-header">
+
+            <div>
+                <span>NETWORK METRICS</span>
+            </div>
+
+            <div>
+                <span>NORMAL</span>
+                <span>DURING ISSUE</span>
+            </div>
+
+        </div>
+
+        <div class="comparison-row">
+
+            <div class="metric-name">
+                Latency
+            </div>
+
+            <div id="normal-latency">
+                -- ms
+            </div>
+
+            <div id="issue-latency">
+                -- ms
+            </div>
+
+        </div>
+
+        <div class="comparison-row">
+
+            <div class="metric-name">
+                Download Speed
+            </div>
+
+            <div id="normal-speed">
+                -- Mbps
+            </div>
+
+            <div id="issue-speed">
+                -- Mbps
+            </div>
+
+        </div>
+
+        <div class="comparison-row">
+
+            <div class="metric-name">
+                Packet Loss
+            </div>
+
+            <div id="normal-packet-loss">
+                -- %
+            </div>
+
+            <div id="issue-packet-loss">
+                -- %
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
